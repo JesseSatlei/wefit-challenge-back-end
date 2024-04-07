@@ -24,16 +24,8 @@ export class UserRepository extends Repository<User> implements IUserRepository 
     }
   }
 
-  async findUserById(userId: number): Promise<User> {
-    try {
-      const user = await this.findOne(userId);
-      if (!user) {
-        throw new Error('User not found');
-      }
-      return user;
-    } catch (error) {
-      throw new Error('Error while finding user');
-    }
+  async findUserById(userId: number): Promise<User | undefined> {
+    return await this.findOne(userId);
   }
 
   async findAllUsers(): Promise<User[]> {

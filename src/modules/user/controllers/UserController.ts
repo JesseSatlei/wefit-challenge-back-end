@@ -17,7 +17,7 @@ class UserController {
       const user = await UserService.createUser(createUserDto);
       return res.status(201).json(user);
     } catch (error: any) {
-      return res.status(500).json({ message: 'Error create user', error: error.message });
+      return res.status(error?.statusCode || 500).json({ message: 'Error create user', error: error.message });
     }
   }
 
@@ -32,7 +32,7 @@ class UserController {
 
       return res.status(200).json(user);
     } catch (error: any) {
-      return res.status(500).json({ message: 'Error fetching user', error: error.message });
+      return res.status(error?.statusCode || 500).json({ message: 'Error fetching user', error: error.message });
     }
   }
 
@@ -41,7 +41,7 @@ class UserController {
       const users = await UserService.findAllUsers();
       return res.status(200).json(users);
     } catch (error: any) {
-      return res.status(500).json({ message: 'Error fetching users', error: error.message });
+      return res.status(error?.statusCode || 500).json({ message: 'Error fetching users', error: error.message });
     }
   }
 
@@ -56,9 +56,14 @@ class UserController {
       }
 
       const updatedUser = await UserService.updateUser(userId, updateUserDto);
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' })
+      }
+
       return res.status(200).json(updatedUser);
     } catch (error: any) {
-      return res.status(500).json({ message: 'Error updating user', error: error.message });
+      return res.status(error?.statusCode || 500).json({ message: 'Error updating user', error: error.message });
     }
   }
 
@@ -69,7 +74,7 @@ class UserController {
       await UserService.deleteUser(userId);
       return res.status(204).end();
     } catch (error: any) {
-      return res.status(500).json({ message: 'Error deleting user', error: error.message });
+      return res.status(error?.statusCode || 500).json({ message: 'Error deleting user', error: error.message });
     }
   }
 }

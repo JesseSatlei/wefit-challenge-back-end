@@ -17,22 +17,18 @@ class UserService {
     return await this.getUserRepository().saveUser(data);
   }
 
-  static async findUserById(userId: number): Promise<User | null> {
-    try {
-      return await this.getUserRepository().findUserById(userId);
-    } catch (error) {
-      return null;
-    }
+  static async findUserById(userId: number): Promise<User | undefined> {
+    return await this.getUserRepository().findUserById(userId);
   }
 
   static async findAllUsers(): Promise<User[]> {
     return await this.getUserRepository().findAllUsers();
   }
 
-  static async updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User> {
-    let user = await this.getUserRepository().findUserById(userId);
+  static async updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User | null> {
+    const user = await this.getUserRepository().findUserById(userId);
     if (!user) {
-      throw new Error('User not found');
+      return null;
     }
 
     Object.assign(user, data);
@@ -41,7 +37,6 @@ class UserService {
   }
 
   static async deleteUser(userId: number): Promise<void> {
-    await this.getUserRepository().findUserById(userId);
     await this.getUserRepository().deleteUser(userId);
   }
 }
