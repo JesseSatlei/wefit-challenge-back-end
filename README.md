@@ -4,6 +4,10 @@ Teste de backend da Wefit.
 ### Pré-requisitos
 Ter instalado e configurado o Docker e Node.
 
+Para acessar qualquer rota da aplicação, é necessário incluir um token de autorização no cabeçalho da solicitação. Você pode configurar este token no arquivo .env usando a variável AUTH_TOKEN.
+
+Caso for utilizar o Swagger para testes, certifique-se de incluir o cabeçalho de autorização no campo "Authorize" localizado na parte superior da documentação.
+
 ### Iniciando o banco de dados
 Para iniciar o banco de dados MySQL, execute o seguinte comando na raiz do projeto:
 
@@ -45,7 +49,11 @@ A estrutura de pastas do projeto é organizada da seguinte forma:
 * routes: Contém arquivos de definição de rotas da API.
 * shared: Contém recursos compartilhados, como classes de erro e utilitários.
 
+### Utilizando as rotas
+Para utilizar as rotas da API, você pode utilizar uma ferramenta como o Postman ou o Swagger UI. A documentação Swagger da API está disponível em /api-docs.
+
 ### A API possui as seguintes rotas:
+
 #### POST /user
 - Cria um novo usuário com base nos dados fornecidos.
 - Body: `CreateUserDto`
@@ -78,7 +86,3 @@ A estrutura de pastas do projeto é organizada da seguinte forma:
 - Respostas:
   - 204: Usuário excluído com sucesso.
   - 404: Usuário não encontrado.
-
-#### Utilizando as rotas
-Para utilizar as rotas da API, você pode utilizar uma ferramenta como o Postman ou o Swagger UI. A documentação Swagger da API está disponível em /api-docs.
-
