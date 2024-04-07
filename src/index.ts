@@ -1,13 +1,26 @@
-import express from "express";
+import express from 'express';
+import bodyParser from 'body-parser';
+import setupSwagger from './middleware/swaggerMiddleware';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { connectDatabase } from './config/database';
+import connectionOptions from './config/typeorm';
+
+dotenv.config();
 
 const app = express();
 
-const port = process.env.PORT || 4568;
+app.use(cors());
+app.use(bodyParser.json());
 
-app.get("/ping", (req, res) => {
-  return res.send("pong");
+setupSwagger(app);
+
+connectDatabase(connectionOptions);
+
+const PORT = process.env.PORT || 4568;
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
 
-app.listen(port, () => {
-  console.log(`Escutando na porta ${port}`);
-});
+export default app;

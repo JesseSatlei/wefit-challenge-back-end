@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
@@ -7,9 +8,10 @@
     "strictPropertyInitialization": false,
     "allowJs": true,
     "esModuleInterop": true,
-
     "emitDecoratorMetadata": true,
-
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "lib": ["es6"],
+    "types": ["node", "jest"]
   }
 }
