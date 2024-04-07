@@ -5,6 +5,6 @@ export interface IUserRepository {
   saveUser(data: CreateUserDto): Promise<User>;
   findUserById(userId: number): Promise<User | undefined>;
   findAllUsers(): Promise<User[]>;
-  updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User>;
+  updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User | undefined>;
   deleteUser(userId: number): Promise<void>;
 }

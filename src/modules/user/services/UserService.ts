@@ -25,15 +25,10 @@ class UserService {
     return await this.getUserRepository().findAllUsers();
   }
 
-  static async updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User | null> {
-    const user = await this.getUserRepository().findUserById(userId);
-    if (!user) {
-      return null;
-    }
-
-    Object.assign(user, data);
-
-    return await this.getUserRepository().saveUser(user);
+  static async updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User | undefined> {
+    const userRepository = this.getUserRepository();
+    const user = await userRepository.updateUser(userId, data);
+    return user;
   }
 
   static async deleteUser(userId: number): Promise<void> {

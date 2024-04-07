@@ -32,17 +32,15 @@ export class UserRepository extends Repository<User> implements IUserRepository 
     return await this.find();
   }
 
-  async updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User> {
-    let user = await this.findOne(userId);
+  async updateUser(userId: number, data: Partial<CreateUserDto>): Promise<User | undefined> {
+    const user = await this.findOne(userId);
     if (!user) {
-      throw new Error('User not found');
+      return undefined;
     }
 
-    const partialUser: Partial<User> = user;
+    Object.assign(user, data);
 
-    Object.assign(partialUser, data);
-
-    return await this.save(partialUser);
+    return await this.save(user);
   }
 
   async deleteUser(userId: number): Promise<void> {

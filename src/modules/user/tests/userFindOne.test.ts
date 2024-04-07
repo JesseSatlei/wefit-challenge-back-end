@@ -44,7 +44,7 @@ describe('UserController', () => {
 			const req = { params: { id: '1' } } as unknown as Request;
 			const res = { status: jest.fn().mockReturnThis(), json: jest.fn() } as unknown as Response;
 
-			mockUserService.findUserById.mockResolvedValueOnce(null);
+			mockUserService.findUserById.mockResolvedValueOnce(undefined);
 
 			await UserController.findOne(req, res);
 
