@@ -24,11 +24,15 @@ export class UserRepository extends Repository<User> implements IUserRepository 
     }
   }
 
-  async findUserById(userId: number): Promise<User | null> {
+  async findUserById(userId: number): Promise<User> {
     try {
-      return await this.findOneOrFail(userId);
+      const user = await this.findOne(userId);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      return user;
     } catch (error) {
-      throw new Error('User not found');
+      throw new Error('Error while finding user');
     }
   }
 
@@ -50,10 +54,6 @@ export class UserRepository extends Repository<User> implements IUserRepository 
   }
 
   async deleteUser(userId: number): Promise<void> {
-    const user = await this.findOne(userId);
-    if (!user) {
-      throw new Error('User not found');
-    }
     await this.delete(userId);
   }
 }

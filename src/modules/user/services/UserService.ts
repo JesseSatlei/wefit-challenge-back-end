@@ -18,7 +18,11 @@ class UserService {
   }
 
   static async findUserById(userId: number): Promise<User | null> {
-    return await this.getUserRepository().findUserById(userId);
+    try {
+      return await this.getUserRepository().findUserById(userId);
+    } catch (error) {
+      return null;
+    }
   }
 
   static async findAllUsers(): Promise<User[]> {
@@ -37,10 +41,7 @@ class UserService {
   }
 
   static async deleteUser(userId: number): Promise<void> {
-    const user = await this.getUserRepository().findUserById(userId);
-    if (!user) {
-      throw new Error('User not found');
-    }
+    await this.getUserRepository().findUserById(userId);
     await this.getUserRepository().deleteUser(userId);
   }
 }
