@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import routes from './routes';
 import setupSwagger from './middleware/swaggerMiddleware';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -16,6 +17,8 @@ app.use(bodyParser.json());
 setupSwagger(app);
 
 connectDatabase(connectionOptions);
+
+app.use('/', routes);
 
 const PORT = process.env.PORT || 4568;
 
