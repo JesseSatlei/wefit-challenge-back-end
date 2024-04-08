@@ -73,7 +73,7 @@ Para utilizar as rotas da API, você pode utilizar uma ferramenta como o Postman
 - Atualiza os detalhes de um usuário específico com base no ID fornecido.
 - Parâmetros:
   - id: ID do usuário.
-- Body: `CreateUserDto`
+- Body: `UpdateUserDto`
 - Respostas:
   - 200: Usuário atualizado com sucesso. Retorna o usuário atualizado.
   - 400: Erro de validação, campos obrigatórios ausentes.
