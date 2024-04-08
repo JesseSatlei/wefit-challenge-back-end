@@ -96,10 +96,21 @@ export default `
  *               $ref: '#/components/schemas/User'
  *       400:
  *         description: Erro de validação, campos obrigatórios ausentes
- */
-
-/**
- * @swagger
+ *   get:
+ *     summary: Retorna todos os usuários
+ *     description: Retorna todos os usuários cadastrados.
+ *     responses:
+ *       200:
+ *         description: Lista de usuários retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Nenhum usuário encontrado
+ *
  * /user/{id}:
  *   get:
  *     summary: Retorna um usuário específico
