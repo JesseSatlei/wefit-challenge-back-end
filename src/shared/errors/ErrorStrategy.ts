@@ -6,8 +6,8 @@ export interface ErrorStrategy {
 
 export class DuplicateEntryErrorStrategy implements ErrorStrategy {
     handle(error: any): void {
-        if (error.code === 'ER_DUP_ENTRY' && error.sqlMessage.includes('unique_document', 'unique_email')) {
-            throw new AppError(`Document or Email must be unique`, 409);
+        if (error.code === 'ER_DUP_ENTRY') {
+            throw new AppError(`Conflict, this user already exists`, 409);
         }
     }
 }

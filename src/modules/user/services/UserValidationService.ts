@@ -1,14 +1,10 @@
 import Joi from 'joi';
-import { CreateUserDto } from '../dtos/CreateUserDto';
-
-enum UserType {
-  LegalEntity = 'LegalEntity',
-  Individual = 'Individual',
-}
+import { CreateUserDto, UserType } from '../dtos/CreateUserDto';
 
 const brazilianPhoneRegex = /^(\([0-9]{2}\)\s)?(9)?[0-9]{4}-[0-9]{4}$/;
 const brazilianPostalCodeRegex = /^\d{5}-\d{3}$/;
-const brazilianDocumentRegex = /^([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}|[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}-?[0-9]{2})$/;
+const brazilianCPFRegex = /^([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2})$/;
+const brazilianCNPJRegex = /^([0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}-?[0-9]{2})$/;
 
 const errorMessages = {
   required: '{#label} is required',
@@ -26,7 +22,10 @@ export class ValidationService {
         .valid(...Object.values(UserType))
         .required()
         .messages({ ...errorMessages, ...{ 'any.only': errorMessages.userType } }),
-      document: Joi.string().required().pattern(brazilianDocumentRegex).messages({ ...errorMessages, ...{ 'string.pattern.base': errorMessages.pattern } }),
+      document: Joi.string()
+        .required()
+        .pattern(createUserDto.userType === UserType.LegalEntity ? brazilianCNPJRegex : brazilianCPFRegex)
+        .messages({ ...errorMessages, ...{ 'string.pattern.base': errorMessages.pattern } }),
       name: Joi.string().required().messages(errorMessages),
       cellphone: Joi.string().required().pattern(brazilianPhoneRegex).messages({ ...errorMessages, ...{ 'string.pattern.base': errorMessages.phone } }),
       telephone: Joi.string().required().pattern(brazilianPhoneRegex).messages({ ...errorMessages, ...{ 'string.pattern.base': errorMessages.phone } }),
@@ -49,7 +48,7 @@ export class ValidationService {
         .valid(...Object.values(UserType))
         .optional()
         .messages({ 'any.only': errorMessages.userType }),
-      document: Joi.string().pattern(brazilianDocumentRegex).messages({ 'string.pattern.base': errorMessages.pattern }).optional(),
+      document: Joi.string().pattern(updateUserDto.userType === UserType.LegalEntity ? brazilianCNPJRegex : brazilianCPFRegex).messages({ 'string.pattern.base': errorMessages.pattern }).optional(),
       name: Joi.string().optional(),
       cellphone: Joi.string().pattern(brazilianPhoneRegex).messages({ 'string.pattern.base': errorMessages.phone }).optional(),
       telephone: Joi.string().pattern(brazilianPhoneRegex).messages({ 'string.pattern.base': errorMessages.phone }).optional(),
